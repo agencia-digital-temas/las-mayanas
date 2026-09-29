@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Las Mayanas – Tacos y Tortas</title>
+<meta name="description" content="Las Mayanas – Tacos y Tortas. Sabor que se comparte.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@600;700;800&family=Alfa+Slab+One&family=Bangers&display=swap" rel="stylesheet">
+<style>
+:root{
+  --naranja:#F28C28; --quemado:#D9601A; --cafe:#4A2511; --crema:#FFF4E3;
+  --mostaza:#F5B800; --chile:#C62828; --turquesa:#1FA5A0;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{
+  font-family:'Nunito',system-ui,sans-serif;color:var(--cafe);
+  background:
+    radial-gradient(circle at 15% 10%,#FFD9A8 0%,transparent 45%),
+    radial-gradient(circle at 85% 20%,#FFE3B8 0%,transparent 45%),
+    radial-gradient(circle at 50% 100%,#FFC98A 0%,transparent 55%),
+    var(--crema);
+  min-height:100vh;display:flex;justify-content:center;align-items:flex-start;
+  padding:32px 16px;overflow-x:hidden;position:relative;
+}
+/* textura de puntitos */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(74,37,17,.12) 1.2px,transparent 1.4px);
+  background-size:22px 22px;
+}
+/* blobs */
+.blob{position:fixed;border-radius:50%;filter:blur(60px);opacity:.55;z-index:0;pointer-events:none;animation:float 12s ease-in-out infinite}
+.b1{width:260px;height:260px;background:var(--naranja);top:-60px;left:-70px}
+.b2{width:220px;height:220px;background:var(--mostaza);top:35%;right:-80px;animation-delay:-4s}
+.b3{width:240px;height:240px;background:var(--turquesa);bottom:-80px;left:-40px;opacity:.3;animation-delay:-8s}
+.b4{width:180px;height:180px;background:var(--chile);bottom:20%;right:10%;opacity:.25;animation-delay:-2s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(25px,-30px) scale(1.08)}66%{transform:translate(-20px,20px) scale(.95)}}
+
+/* splash */
+#splash{
+  position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle,#FFE9C9,var(--crema));
+  animation:splashOut .5s ease 1.5s forwards;
+}
+#splash svg{width:130px;height:130px;animation:bounceIn .9s cubic-bezier(.34,1.56,.64,1) both;filter:drop-shadow(0 8px 14px rgba(74,37,17,.3))}
+@keyframes bounceIn{0%{transform:scale(0) rotate(-25deg);opacity:0}60%{transform:scale(1.2) rotate(6deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes splashOut{to{opacity:0;visibility:hidden}}
+
+/* tarjeta */
+.card{
+  position:relative;z-index:1;width:100%;max-width:400px;
+  background:rgba(255,255,255,.55);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border:2px solid rgba(255,255,255,.7);border-radius:32px;
+  box-shadow:0 20px 50px rgba(217,96,26,.25),0 6px 16px rgba(74,37,17,.15);
+  padding:28px 20px 26px;text-align:center;
+  opacity:0;animation:cardIn .8s ease 2s forwards;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:none}}
+
+.plate-wrap{position:relative;width:min(250px,100%);aspect-ratio:1;margin:0 auto;border-radius:50%;
+  box-shadow:0 16px 20px -6px rgba(74,37,17,.45),0 3px 5px rgba(74,37,17,.3);
+  opacity:0;animation:pop .7s cubic-bezier(.34,1.56,.64,1) 2.2s forwards}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}100%{opacity:1;transform:scale(1)}}
+.plate{position:absolute;inset:0;border-radius:50%;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;will-change:transform;
+  background:radial-gradient(circle at 32% 28%,#fff 0%,#FBF3E4 45%,#E6D6BC 100%);
+  box-shadow:inset 0 3px 4px #fff,inset 0 -5px 9px rgba(74,37,17,.2),inset 0 0 0 1px rgba(74,37,17,.12)}
+.plate:active{cursor:grabbing}
+.plate .talavera{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.plate .well{position:absolute;inset:8.8%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 65% 70%,#fffaf0,#F2E4CB 85%);
+  box-shadow:inset 0 5px 10px rgba(74,37,17,.35),inset 0 -2px 4px rgba(255,255,255,.8),0 1px 0 #fff,0 -1px 1px rgba(74,37,17,.25)}
+.plate .logo{position:absolute;left:10%;top:10%;width:80%;height:80%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;
+  filter:drop-shadow(0 4px 6px rgba(74,37,17,.3))}
+.hint{font-size:.78rem;font-weight:700;color:var(--cafe);opacity:0;margin-top:10px;animation:hintIn .6s ease 3s forwards}
+@keyframes hintIn{to{opacity:.6}}
+
+.divider{display:flex;align-items:center;gap:10px;margin:14px 6px;opacity:0;animation:fadeUp .6s ease forwards}
+.divider::before,.divider::after{content:"";flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--naranja),transparent)}
+.divider svg{width:22px;height:22px;flex:none;animation:wiggle 3s ease-in-out infinite}
+.d1{animation-delay:2.5s}.d2{animation-delay:3.3s}
+@keyframes wiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+h1{font-family:'Alfa Slab One',serif;font-weight:400;line-height:1;margin:4px 0 0;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  filter:drop-shadow(3px 4px 0 #D9601A) drop-shadow(0 6px 8px rgba(59,30,14,.18));
+  opacity:0;animation:titleBounce 1s cubic-bezier(.34,1.56,.64,1) 2.6s forwards}
+h1 span{color:#F8E7C6;letter-spacing:1px;-webkit-text-stroke:6px #3B1E0E;paint-order:stroke fill;stroke-linejoin:round;max-width:100%}
+h1 .las{font-size:clamp(15px,4.4vw,23px);-webkit-text-stroke:4px #3B1E0E}
+h1 .may{font-size:clamp(38px,11vw,58px)}
+@keyframes titleBounce{0%{opacity:0;transform:translateY(-40px) scale(.5)}60%{opacity:1;transform:translateY(6px) scale(1.08)}80%{transform:translateY(-3px) scale(.98)}100%{opacity:1;transform:none}}
+.tt{font-family:'Bangers',cursive;font-style:italic;font-size:clamp(24px,7vw,32px);letter-spacing:2px;line-height:1.1;margin-top:8px;
+  -webkit-text-stroke:3px #3B1E0E;paint-order:stroke fill;opacity:0;animation:fadeUp .6s ease 2.7s forwards}
+.tt .t1{color:#F5B800}.tt .t2{color:#F8E7C6}.tt .t3{color:#C62828}
+.lema{font-size:.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--cafe);margin-top:6px;opacity:0;animation:fadeUp .6s ease 2.75s forwards}
+.desc{font-size:.95rem;font-weight:600;margin:8px 10px 0;opacity:.85;opacity:0;animation:fadeUp .6s ease 2.8s forwards}
+
+.links{display:flex;flex-direction:column;gap:12px}
+.btn{
+  display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--cafe);
+  background:rgba(255,255,255,.75);border:2px solid var(--naranja);border-radius:20px;
+  padding:10px 14px 10px 10px;text-align:left;
+  box-shadow:0 4px 12px rgba(217,96,26,.2);
+  opacity:0;transform:translateY(20px);animation:fadeUp .55s ease forwards;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s;
+}
+.btn:nth-child(1){animation-delay:3.4s}.btn:nth-child(2){animation-delay:3.55s}
+.btn:nth-child(3){animation-delay:3.7s}.btn:nth-child(4){animation-delay:3.85s}
+.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 20px rgba(217,96,26,.35);background:#fff}
+.btn:active{transform:scale(.97)}
+.ico{width:48px;height:48px;flex:none;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--naranja),var(--quemado));border:2.5px solid var(--cafe)}
+.ico svg{width:24px;height:24px;fill:#fff}
+.txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.txt b{font-size:1.02rem;font-weight:800}
+.txt small{font-size:.8rem;font-weight:600;opacity:.75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arrow{width:20px;height:20px;flex:none;fill:none;stroke:var(--quemado);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* destacado */
+.btn.feat{
+  background:linear-gradient(135deg,var(--naranja),var(--chile));border-color:var(--cafe);color:#fff;
+  animation:fadeUp .55s ease 3.4s forwards,glowPulse 2s ease-in-out 4s infinite;
+}
+.btn.feat:hover{background:linear-gradient(135deg,var(--naranja),var(--chile))}
+.btn.feat .ico{background:var(--crema);border-color:var(--mostaza);box-shadow:0 0 0 2px rgba(245,184,0,.45)}
+.btn.feat .ico svg{fill:var(--naranja);stroke:var(--naranja);stroke-width:1}
+.btn.feat small{opacity:.92}
+.btn.feat .arrow{stroke:#fff}
+@keyframes glowPulse{0%,100%{box-shadow:0 4px 14px rgba(198,40,40,.35)}50%{box-shadow:0 0 0 4px rgba(245,184,0,.35),0 8px 28px rgba(242,140,40,.75)}}
+
+footer{margin-top:22px;opacity:0;animation:fadeUp .6s ease 4.2s forwards}
+footer p{font-family:'Caveat',cursive;font-size:1.6rem;font-weight:700;color:var(--quemado)}
+footer span{display:block;font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--cafe);opacity:.7;margin-top:2px}
+
+#confetti{position:fixed;inset:0;z-index:50;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important}}
+@media (max-width:360px){h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+
+<div id="splash" aria-hidden="true">
+  <svg viewBox="0 0 100 100">
+    <path d="M52 22 C50 12 56 6 66 6 C64 12 62 16 60 22Z" fill="#2E7D32"/>
+    <path d="M30 24 C50 14 78 22 82 44 C86 68 66 88 30 92 C14 94 8 86 16 78 C34 70 40 56 42 44 C43 36 38 30 30 24Z" fill="#C62828"/>
+    <path d="M36 28 C50 22 66 26 72 38" stroke="#FF6B5B" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>
+    <path d="M30 24 C36 18 46 16 52 22 L60 22 C66 24 72 28 76 34" stroke="#2E7D32" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<main class="card">
+  <div class="plate-wrap">
+    <div class="plate" id="plate">
+      <svg class="talavera" viewBox="0 0 250 250" aria-hidden="true">
+        <circle cx="125" cy="125" r="121" fill="none" stroke="#1FA5A0" stroke-width="1.2" opacity=".8"/>
+        <circle cx="125" cy="125" r="116" fill="none" stroke="#1FA5A0" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="0 12.76"/>
+        <circle cx="125" cy="125" r="109" fill="none" stroke="#1FA5A0" stroke-width="1" opacity=".8"/>
+      </svg>
+      <div class="well"></div>
+      <img class="logo" src="logo.png" alt="Logo de Las Mayanas – Tacos y Tortas" draggable="false">
+    </div>
+  </div>
+  <div class="hint">¡Gíralo! 🌮</div>
+
+  <div class="divider d1"><svg viewBox="0 0 100 100"><path d="M52 22 C50 12 56 6 66 6 C64 12 62 16 60 22Z" fill="#2E7D32"/><path d="M30 24 C50 14 78 22 82 44 C86 68 66 88 30 92 C14 94 8 86 16 78 C34 70 40 56 42 44 C43 36 38 30 30 24Z" fill="#C62828"/></svg></div>
+
+  <h1 aria-label="Las Mayanas"><span class="las" aria-hidden="true">Las</span><span class="may" aria-hidden="true">Mayanas</span></h1>
+  <div class="tt"><span class="t1">TACOS</span> <span class="t2">Y</span> <span class="t3">TORTAS</span></div>
+  <div class="lema">Sabor que se comparte</div>
+  <p class="desc">Tacos, tortas y burritos hechos con el sazón de casa</p>
+
+  <div class="divider d2"><svg viewBox="0 0 100 100"><path d="M52 22 C50 12 56 6 66 6 C64 12 62 16 60 22Z" fill="#2E7D32"/><path d="M30 24 C50 14 78 22 82 44 C86 68 66 88 30 92 C14 94 8 86 16 78 C34 70 40 56 42 44 C43 36 38 30 30 24Z" fill="#C62828"/></svg></div>
+
+  <nav class="links">
+    <!-- TODO: reemplaza el link de reseñas de Google -->
+    <a class="btn feat" href="https://g.page/r/TU_LINK_DE_RESENAS/review" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z" stroke-linejoin="round"/></svg></span>
+      <span class="txt"><b>Déjanos tu reseña</b><small>Cuéntanos qué tal te supo</small></span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="btn" href="https://wa.me/527122784997" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.2 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.300c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.400 0 .6l-.4.6c-.2.2-.3.400-.1.700.2.3.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.1.5.1.7-.1l1-1.200c.2-.3.4-.2.700-.1l1.900.9c.3.1.5.2.5.3.1.2.1.700-.1 1.300z"/></svg></span>
+      <span class="txt"><b>WhatsApp</b><small>Haz tu pedido: 712 278 4997</small></span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="btn" href="https://www.instagram.com/tacos_tortas_lasmayanas" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M7.500 2h9A5.500 5.500 0 0122 7.500v9a5.500 5.500 0 01-5.500 5.500h-9A5.500 5.500 0 012 16.500v-9A5.500 5.500 0 017.500 2zm0 2A3.500 3.500 0 004 7.500v9A3.500 3.500 0 007.500 20h9a3.500 3.500 0 003.500-3.500v-9A3.500 3.500 0 0016.500 4zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.500-3a1.200 1.200 0 110 2.400 1.200 1.200 0 010-2.400z"/></svg></span>
+      <span class="txt"><b>Instagram</b><small>@tacos_tortas_lasmayanas</small></span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="btn" href="https://www.facebook.com/share/1CeWJZf6VN/" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M14 8.500V6.800c0-.8.200-1.300 1.400-1.300H17V2.300C16.700 2.300 15.700 2.200 14.600 2.200 12.100 2.200 10.500 3.700 10.500 6.400v2.100H8v3.500h2.500V22H14v-10h2.700l.4-3.500z"/></svg></span>
+      <span class="txt"><b>Facebook</b><small>Las Mayanas Tacos y Tortas</small></span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+  <footer>
+    <p>¡Gracias por tu preferencia!</p>
+    <span>SOL&Iacute;S, M&Eacute;XICO</span>
+  </footer>
+</main>
+
+<script>
+(function(){
+  const plate=document.getElementById('plate');
+  let rot=0,vel=0,mode='idle',raf=0,tw=null;
+  let dragging=false,moved=false,lastA=0,lastT=0,sx=0,sy=0,lastMove=0;
+  const apply=()=>{plate.style.transform='rotate('+rot+'deg)'};
+  const easeOutBack=t=>{const c=1.70158+1;return 1+c*Math.pow(t-1,3)+(c-1)*Math.pow(t-1,2)};
+  const easeInOut=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  function loop(now){
+    raf=0;
+    if(mode==='tween'){
+      const t=Math.min(1,(now-tw.t0)/tw.dur);
+      rot=tw.from+(tw.to-tw.from)*tw.ease(t);apply();
+      if(t>=1)mode='idle';
+    }else if(mode==='inertia'){
+      const dt=Math.min(now-lastT,50);lastT=now;
+      rot+=vel*dt;apply();
+      vel*=Math.pow(.95,dt/16.7);
+      if(Math.abs(vel)<.005)mode='idle';
+    }
+    if(mode==='tween'||mode==='inertia')raf=requestAnimationFrame(loop);
+  }
+  function run(){if(!raf)raf=requestAnimationFrame(loop)}
+  function tween(delta,dur,ease){tw={from:rot,to:rot+delta,dur:dur,ease:ease,t0:performance.now()};mode='tween';run()}
+  const angleAt=e=>{const r=plate.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI};
+  plate.addEventListener('pointerdown',e=>{
+    plate.setPointerCapture(e.pointerId);
+    dragging=true;moved=false;mode='idle';vel=0;
+    lastA=angleAt(e);lastT=lastMove=performance.now();sx=e.clientX;sy=e.clientY;
+  });
+  plate.addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    const a=angleAt(e),now=performance.now();
+    let d=a-lastA;if(d>180)d-=360;if(d<-180)d+=360;
+    if(!moved&&Math.hypot(e.clientX-sx,e.clientY-sy)>6)moved=true;
+    if(moved){
+      rot+=d;apply();
+      const dt=Math.max(now-lastT,1);
+      vel=vel*.6+(d/dt)*.4;lastMove=now;
+    }
+    lastA=a;lastT=now;
+  });
+  function end(e){
+    if(!dragging)return;
+    dragging=false;
+    if(!moved){tween(360,900,easeOutBack);return}
+    const now=performance.now();
+    if(now-lastMove>80)vel=0;
+    if(Math.abs(vel)>.005){mode='inertia';lastT=now;run()}
+  }
+  plate.addEventListener('pointerup',end);
+  plate.addEventListener('pointercancel',end);
+  setTimeout(()=>{if(mode==='idle'&&!dragging)tween(180,1400,easeInOut)},2900);
+})();
+(function(){
+  const c=document.getElementById('confetti'),x=c.getContext('2d');
+  const colors=['#F28C28','#F5B800','#C62828','#1FA5A0','#FFF4E3'];
+  let W,H,parts=[];
+  function size(){W=c.width=innerWidth;H=c.height=innerHeight}
+  size();addEventListener('resize',size);
+  function burst(){
+    for(let i=0;i<110;i++){
+      parts.push({x:Math.random()*W,y:-20-Math.random()*H*.4,
+        w:6+Math.random()*7,h:8+Math.random()*10,
+        vx:(Math.random()-.5)*3,vy:2+Math.random()*3.5,
+        r:Math.random()*6.28,vr:(Math.random()-.5)*.25,
+        col:colors[i%colors.length]});
+    }
+  }
+  function tick(){
+    x.clearRect(0,0,W,H);
+    parts.forEach(p=>{
+      p.x+=p.vx+Math.sin(p.y/40);p.y+=p.vy;p.r+=p.vr;
+      x.save();x.translate(p.x,p.y);x.rotate(p.r);
+      x.fillStyle=p.col;x.strokeStyle='rgba(74,37,17,.25)';
+      x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.strokeRect(-p.w/2,-p.h/2,p.w,p.h);
+      x.restore();
+    });
+    parts=parts.filter(p=>p.y<H+30);
+    if(parts.length)requestAnimationFrame(tick);else x.clearRect(0,0,W,H);
+  }
+  setTimeout(()=>{burst();tick()},2000);
+})();
+</script>
+</body>
+</html>
